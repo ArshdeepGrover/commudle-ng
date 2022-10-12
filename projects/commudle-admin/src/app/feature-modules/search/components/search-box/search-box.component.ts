@@ -97,16 +97,4 @@ export class SearchBoxComponent implements OnInit, AfterViewInit {
       queryParams: { q: this.inputFormControl.value?.name || this.inputFormControl.value },
     });
   }
-
-  onFocus() {
-    if (this.showSuggestions) {
-      this.hostClass = 'full-width';
-    }
-  }
-
-  onBlur() {
-    if (this.showSuggestions) {
-      this.hostClass = '';
-    }
-  }
 }
