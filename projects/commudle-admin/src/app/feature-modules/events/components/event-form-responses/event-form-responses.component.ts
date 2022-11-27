@@ -119,6 +119,7 @@ export class EventFormResponsesComponent implements OnInit {
         switchMap(() => {
           this.page = 1;
           this.emptyMessage = 'Loading...';
+          this.rows = [];
           return this.dataFormEntityResponseGroupsService.getEventDataFormResponses(
             this.eventDataFormEntityGroupId,
             this.searchForm.get('name').value.toLowerCase(),
