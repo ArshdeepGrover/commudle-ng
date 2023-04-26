@@ -33,6 +33,7 @@ import { PublicCommunityRoutingModule } from './public-community-routing.module'
 import { PublicCommunityNotificationsComponent } from './components/public-community-notifications/public-community-notifications.component';
 import { NotificationsModule } from 'apps/commudle-admin/src/app/feature-modules/notifications/notifications.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommunityChannelsModule } from 'apps/commudle-admin/src/app/feature-modules/community-channels/community-channels.module';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NotificationsModule,
     SharedComponentsModule,
     FontAwesomeModule,
+    CommunityChannelsModule,
 
     // Nebular
     NbCardModule,

@@ -7,6 +7,7 @@
   justify-content: center;
   padding-bottom: $space-72;
   padding-top: $space-16;
+  @apply com-px-0;
 
   .community-channel-list {
     background: white;

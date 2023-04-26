@@ -70,7 +70,7 @@ export class CommunityChannelComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.activatedRoute.params.subscribe(() => {
-        this.getPinnedMessages();
+        // this.getPinnedMessages();
       }),
     );
 
@@ -127,7 +127,7 @@ export class CommunityChannelComponent implements OnInit, OnDestroy {
   }
 
   getPinnedMessages() {
-    let channelId = this.activatedRoute.snapshot.params.community_channel_id;
+    const channelId = this.activatedRoute.snapshot.params.community_channel_id;
     this.subscriptions.push(
       this.communityChannelsService.getPinnedMessages(channelId).subscribe((response) => {
         this.pinnedMessages = response;
@@ -138,7 +138,7 @@ export class CommunityChannelComponent implements OnInit, OnDestroy {
   }
 
   removePinnedMessage(message: IUserMessage) {
-    let channelId = this.activatedRoute.snapshot.params.community_channel_id;
+    const channelId = this.activatedRoute.snapshot.params.community_channel_id;
     this.subscriptions.push(this.communityChannelsService.unpinMessage(message.id, channelId).subscribe(() => {}));
   }
 
@@ -152,7 +152,7 @@ export class CommunityChannelComponent implements OnInit, OnDestroy {
   }
 
   closeChannelMembersList() {
-    let currentUrl = this.router.url;
+    const currentUrl = this.router.url;
     if (currentUrl.includes('members')) {
       this.router.navigate([currentUrl.substring(0, currentUrl.lastIndexOf('/'))]);
     }

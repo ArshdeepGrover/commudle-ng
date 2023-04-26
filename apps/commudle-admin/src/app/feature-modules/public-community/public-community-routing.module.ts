@@ -7,6 +7,7 @@ import { CommunityChannelsListComponent } from './components/community-channels-
 import { EventsComponent } from './components/events/events.component';
 import { HomeCommunityComponent } from './components/home-community/home-community.component';
 import { MembersComponent } from './components/members/members.component';
+import { CommunityChannelsDashboardComponent } from 'apps/commudle-admin/src/app/feature-modules/community-channels/components/community-channels-dashboard/community-channels-dashboard.component';
 
 const routes = [
   {
@@ -33,9 +34,13 @@ const routes = [
         component: MembersComponent,
       },
       {
-        path: 'public-channels',
+        path: 'channels',
         component: CommunityChannelsListComponent,
       },
+      // {
+      //   path: 'channels',
+      //   component: CommunityChannelsDashboardComponent,
+      // },
       {
         path: 'notifications',
         component: PublicCommunityNotificationsComponent,

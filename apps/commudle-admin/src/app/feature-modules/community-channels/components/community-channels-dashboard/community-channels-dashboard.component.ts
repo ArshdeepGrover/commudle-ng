@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommunityChannelManagerService } from 'apps/commudle-admin/src/app/feature-modules/community-channels/services/community-channel-manager.service';
+import { CommunitiesService } from 'apps/commudle-admin/src/app/services/communities.service';
 import { ICommunity } from 'apps/shared-models/community.model';
 import { ICurrentUser } from 'apps/shared-models/current_user.model';
 import { LibAuthwatchService } from 'apps/shared-services/lib-authwatch.service';
@@ -13,6 +14,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./community-channels-dashboard.component.scss'],
 })
 export class CommunityChannelsDashboardComponent implements OnInit, OnDestroy {
+  @Input() community: ICommunity;
+  @Input() showCommunityChannelsList = true;
+  communityId;
+
   currentUser: ICurrentUser;
   selectedCommunity: ICommunity;
   communityChannels;
@@ -26,18 +31,29 @@ export class CommunityChannelsDashboardComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private communityChannelManagerService: CommunityChannelManagerService,
     private seoService: SeoService,
+    private communitiesService: CommunitiesService,
   ) {}
 
   ngOnInit() {
+    this.subscriptions.push(
+      this.activatedRoute.parent.params.subscribe((data) => {
+        this.communityId = data.community_id;
+      }),
+    );
     this.subscriptions.push(
       this.authWatchService.currentUser$.subscribe((data) => {
         this.communityChannelManagerService.setCurrentUser(data);
       }),
       this.activatedRoute.params.subscribe((data) => {
         if (!this.selectedCommunity || data.community_id !== this.selectedCommunity.slug) {
-          this.selectedCommunity = this.activatedRoute.snapshot.data.community;
-          this.setMeta();
-          this.communityChannelManagerService.setCommunity(this.selectedCommunity);
+          this.communitiesService.getCommunityDetails(this.communityId).subscribe((value: ICommunity) => {
+            this.community = value;
+            this.selectedCommunity = Object.keys(data).length
+              ? this.activatedRoute.snapshot.data.community
+              : this.community;
+            this.setMeta();
+            this.communityChannelManagerService.setCommunity(this.selectedCommunity);
+          });
         }
       }),
       this.communityChannelManagerService.communityChannels$.subscribe((data) => {

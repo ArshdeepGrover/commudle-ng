@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'app',
+    path: '',
     component: CommunityChannelsDashboardComponent,
     resolve: {
       community: CommunityDetailsResolver,
@@ -77,11 +77,11 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: '',
-    redirectTo: 'app',
-    pathMatch: 'prefix',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'app',
+  //   pathMatch: 'prefix',
+  // },
 ];
 
 @NgModule({
