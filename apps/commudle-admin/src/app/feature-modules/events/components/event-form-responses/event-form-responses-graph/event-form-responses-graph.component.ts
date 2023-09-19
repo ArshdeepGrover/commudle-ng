@@ -24,10 +24,17 @@ export class EventFormResponsesGraphComponent implements OnInit, OnDestroy {
   responses;
   responseChart;
   diversityChat;
+  showChartView = false;
   constructor(private dataFormEntityResponseGroupsService: DataFormEntityResponseGroupsService) {}
 
   ngOnInit(): void {
     this.getResponses();
+    if (
+      this.question.question_type_id === EQuestionTypes.MULTIPLE_CHOICE ||
+      this.question.question_type_id === EQuestionTypes.SINGLE_CHOICE
+    ) {
+      this.showChartView = true;
+    }
   }
 
   ngOnDestroy(): void {
@@ -44,8 +51,10 @@ export class EventFormResponsesGraphComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     if (this.forms.length > 0) {
       for (const form of this.forms) {
-        formData.append(`qres[]q`, form.get('q').value);
-        formData.append(`qres[]v`, form.get('v').value);
+        if (form) {
+          formData.append(`qres[]q`, form.get('q').value);
+          formData.append(`qres[]v`, form.get('v').value);
+        }
       }
     }
     this.dataFormEntityResponseGroupsService
@@ -85,28 +94,36 @@ export class EventFormResponsesGraphComponent implements OnInit, OnDestroy {
           },
         });
 
-        if (
-          this.question.question_type_id === EQuestionTypes.MULTIPLE_CHOICE ||
-          this.question.question_type_id === EQuestionTypes.SINGLE_CHOICE
-        ) {
-          this.responseChart = new Chart(`responses`, {
-            type: 'pie',
-            data: {
-              datasets: [
-                {
-                  data: this.responses.map((row) => row),
-                  backgroundColor: ['blue', '#ff43bc', 'purple', 'green', 'red', 'yellow'],
-                },
-              ],
+        const keydata = [];
+        const valueData = [];
 
-              // These labels appear in the legend and in the tooltips when hovering different arcs
-              labels: this.responses.map((row) => row),
-            },
-            options: {
-              responsive: true,
-            },
-          });
+        for (const key in this.responses) {
+          keydata.push(key);
+          valueData.push(key);
         }
+
+        // if (
+        //   this.question.question_type_id === EQuestionTypes.MULTIPLE_CHOICE ||
+        //   this.question.question_type_id === EQuestionTypes.SINGLE_CHOICE
+        // ) {
+        this.responseChart = new Chart(`responses`, {
+          type: 'pie',
+          data: {
+            datasets: [
+              {
+                data: valueData.map((row) => row),
+                backgroundColor: ['blue', '#ff43bc', 'purple', 'green', 'red', 'yellow'],
+              },
+            ],
+
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: keydata.map((row) => row),
+          },
+          options: {
+            responsive: true,
+          },
+        });
+        // }
       });
   }
 }
