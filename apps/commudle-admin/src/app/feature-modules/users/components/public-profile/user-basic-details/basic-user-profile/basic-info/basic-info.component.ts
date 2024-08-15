@@ -67,7 +67,7 @@ export class BasicInfoComponent implements OnInit {
   displaySelectedProfileImage(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > 2425190) {
+      if (file.size > 2000000) {
         this.toastLogService.warningDialog('Image should be less than 2 Mb', 3000);
         return;
       }
